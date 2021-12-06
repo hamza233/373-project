@@ -1,76 +1,16 @@
 
 import cv2 as cv
 import numpy as np
-import matplotlib.pyplot as plt
 import time
-
 from timeit import repeat
 from multiprocessing import Pool
 import threading
 
 
 
-
-
-
-
 backSub = cv.createBackgroundSubtractorMOG2()
 # list to store clicked coordinates
 coords = []
-def click_event(event, x, y, flags, params):
-    
-    # checking for left mouse clicks
-    if event == cv.EVENT_LBUTTONDOWN:
-        
-        
-        # displaying the coordinates
-        # on the Shell
-        print(x, ' ', y)
-        coords.append((x,y))
-        # displaying the coordinates
-        # on the image window
-        font = cv.FONT_HERSHEY_SIMPLEX
-        cv.putText(frame1, str(x) + ',' +
-                   str(y), (x,y), font,
-                   1, (255, 0, 0), 2)
-        cv.imshow('image', frame1)
-    
-# checking for right mouse clicks
-    if event==cv.EVENT_RBUTTONDOWN:
-        
-        
-        # displaying the coordinates
-        # on the Shell
-        print(x, ' ', y)
-        coords.append((x,y))
-        
-        # displaying the coordinates
-        # on the image window
-        font = cv.FONT_HERSHEY_SIMPLEX
-        b = frame[y, x, 0]
-        g = frame[y, x, 1]
-        r = frame[y, x, 2]
-        cv.putText(frame1, str(b) + ',' + str(g) + ',' + str(r), (x,y), font, 1, (255, 255, 0), 2)
-        cv.imshow('image', frame1)
-        
-        
-# return coordinates of frame
-def get_coords(frame):
-    cv.imshow('image', frame)
-    
-    # setting mouse hadler for the image
-    # and calling the click_event() function
-    cv.setMouseCallback('image', click_event)
-    
-    # wait for a key to be pressed to exit
-    cv.waitKey(0)
-    #cv.destroyAllWindows()
-    
-    pts = np.asarray(coords)
-    rect = cv.boundingRect(pts)
-    
-    
-    return rect, pts
 
 # cut the given frame and rect with np array of coords
 def cut_image(frame, rect, pts):
@@ -129,7 +69,7 @@ if __name__=="__main__":
         image = cut_image(frame, shape, points)
         frames.append(image)
     end_read = time.time()
-    
+
     print('processing frames...')
 
     # make 5 chunks
